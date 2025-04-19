@@ -4,18 +4,22 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh './gradlew build'
+                bat '.\\gradlew.bat build'
             }
         }
         stage('Test') {
             steps {
-                sh './gradlew test'
-            }
-        }
-        stage('Publish Artifact') {
-            steps {
-                sh './gradlew publish'
+                bat '.\\gradlew.bat test'
             }
         }
     }
 }
+    
+    
+        post {
+            always {
+                archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
+                junit '**/build/test-results/**/*.xml'
+            }
+        }
+    }

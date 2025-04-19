@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group = 'com.yourcompany'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url "https://your-artifactory-url/artifactory/libs-release-local"
+            credentials {
+                username = project.findProperty("artifactory_user")
+                password = project.findProperty("artifactory_password")
+            }
+        }
+    }
+}
